@@ -10,8 +10,8 @@ app.get("/all", (req,res) =>{
     res.json(user)
 })
 
-app.get("/search", (req,res) => {
-    res.json(user.filter(nama=> nama === req.headers.name))
+app.get("/search/:name", (req,res) => {
+    res.json(user.filter(nama=> nama.toLowerCase().includes(req.params.name.toLowerCase())))
 })
 
 app.post("/add", (req,res)=>{
@@ -20,8 +20,8 @@ app.post("/add", (req,res)=>{
     res.json(newUser)
 })
 
-app.post("/delete", (req, res)=>{
-    user = user.filter(nama => nama !== req.body.name)
+app.post("/delete/:name", (req, res)=>{
+    user = user.filter(nama => nama !== req.params.name)
     res.json(user)
 })
 module.exports = app
