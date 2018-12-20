@@ -11,15 +11,17 @@ app.get("/all", (req,res) =>{
 })
 
 app.get("/search", (req,res) => {
-    res.json(user)
+    res.json(user.filter(nama=> nama === req.headers.name))
 })
 
 app.post("/add", (req,res)=>{
-    res.json(user)
+    newUser = req.body.name
+    user.push(newUser)
+    res.json(newUser)
 })
 
-app.post("/edit", (req,res)=>{
+app.post("/delete", (req, res)=>{
+    user = user.filter(nama => nama !== req.body.name)
     res.json(user)
 })
-
 module.exports = app
