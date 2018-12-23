@@ -17,6 +17,7 @@ app.get("/search/:name", (req,res) => {
 
 app.post("/add", (req,res)=>{
     const newAddress = {"name": req.body.name, "address" : req.body.address}
+    console.log(newAddress)
     address[req.body.name] = newAddress
     res.json(newAddress)
 })
@@ -24,8 +25,11 @@ app.post("/add", (req,res)=>{
 app.post("/edit/:name", (req,res)=>{
     const user = address[req.params.name]
     user.address = req.body.address
-    address[req.body.name] = user
+    address[req.params.name] = user
     res.json(user)
 })
 
+app.post("/delete/:name", (req, res)=>{
+    delete address[req.params.name]
+})
 module.exports = app

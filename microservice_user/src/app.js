@@ -16,12 +16,22 @@ app.get("/search/:name", (req,res) => {
 
 app.post("/add", (req,res)=>{
     newUser = req.body.name
-    user.push(newUser)
-    res.json(newUser)
+    if(!isExist(newUser)){
+        user.push(newUser)
+        res.json(newUser)
+    }else{
+        res.write("There is already exist with same name")
+        res.end()
+    }
 })
 
 app.post("/delete/:name", (req, res)=>{
     user = user.filter(nama => nama !== req.params.name)
     res.json(user)
 })
+
+const isExist = (name) => {
+    if((user.filter(nama => name === nama).length) > 0) return true
+    else return false
+}
 module.exports = app

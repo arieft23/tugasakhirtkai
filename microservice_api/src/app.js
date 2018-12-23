@@ -3,7 +3,7 @@ const bodyParser = require("body-parser")
 const app = express()
 const request = require("request")
 const urlUser = 'http://localhost:8003'
-const urlAddress = 'localhost:8002'
+const urlAddress = 'http://localhost:8002'
 
 app.use(bodyParser.json())
 
@@ -23,11 +23,16 @@ const postApi = (url, data, callback) => {
 app.post("/AddUser", (req,res) => {
     newUser = req.body.name
     address = req.body.address
-
+    
     postApi(urlUser+"/add", {"name" : newUser}, (response) => {
-        res.json(JSON.parse(response))
-        res.end()
+        console.log(response)
     })
+
+    postApi(urlAddress+"/add", {"name" : newUser, "address" : address}, (response)=>{
+        console.log(response)
+    })
+
+    res.end()
 })
 
 app.get("/ListOfUser", (req,res) =>{
@@ -39,11 +44,27 @@ app.get("/ListOfUser", (req,res) =>{
 })
 
 app.get("/details/:name", (req,res) => {
-    
+    getApi(urlAddress+"/search/"+req.params.name, (response) =>{
+        res.json(JSON.parse(response))
+    })
 })
 
 app.post("/edit/:name", (req,res)=>{
-    
+    postApi(urlAddress+"/edit/"+req.params.name, {"address" : req.body.address}, (response) =>{
+        res.json(JSON.parse(response))
+    })
+})
+
+app.post("/delete/:name", (req, res) => {
+    postApi(urlUser+"/delete/"+req.params.name, {}, (response) =>{
+        console.log(JSON.parse(response))
+    })
+
+    postApi(urlAddress+"/delete/"+req.params.name, {}, (response) =>{
+        console.log(JSON.parse(response))
+    })
+
+    res.end()
 })
 
 module.exports = app
