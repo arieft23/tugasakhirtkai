@@ -2,10 +2,12 @@ const express = require("express")
 const bodyParser = require("body-parser")
 const app = express()
 const request = require("request")
+const cors = require('cors');
 const urlUser = 'http://localhost:8003'
 const urlAddress = 'http://localhost:8002'
 
 app.use(bodyParser.json())
+app.use(cors())
 
 const getApi = (url, callback) =>{
    return request(url, function(err, res, body){
