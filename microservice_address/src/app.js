@@ -36,7 +36,7 @@ app.post("/add", (req,res)=>{
 
 app.post("/edit/:name", (req,res)=>{
     const newData = {name: req.params.name, address : req.body.address}
-    ref.child(req.params.name).set(newAddress)
+    ref.child(req.params.name).set(newData)
     res.json(newData)
 })
 

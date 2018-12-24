@@ -3,8 +3,8 @@ const bodyParser = require("body-parser")
 const app = express()
 const request = require("request")
 const cors = require('cors');
-const urlUser = 'http://13.76.40.171:8003'
-const urlAddress = 'http://13.67.95.153:8002'
+const urlUser = 'http://microservice-user:8003'
+const urlAddress = 'http://microservice-address:8002'
 
 app.use(bodyParser.json())
 app.use(cors())
