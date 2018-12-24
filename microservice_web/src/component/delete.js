@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 class Delete extends Component {
 		
 	handleSubmit= (event) => {
-        const editAPI = "http://137.116.147.69:8001/delete/"
+        const editAPI = "http://104.215.189.208:8001/delete/"
 		const name = this.props.match.params.name;
         fetch(editAPI+name, {
 		   method: "POST",
@@ -19,7 +19,8 @@ class Delete extends Component {
         }).then(function (responseData) {
             console.log(responseData);
             window.location.href = '/';
-        });
+		});
+		window.location.href = '/';
 	}
 
   

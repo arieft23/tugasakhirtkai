@@ -10,7 +10,7 @@ class AddUser extends Component {
             "name": name,
             "address": addr
         }
-        const addAPI = "http://137.116.147.69:8001/AddUser"
+        const addAPI = "http://104.215.189.208:8001/AddUser"
         fetch(addAPI, {
            method: "POST",
            mode: "cors", 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ButtonURL from './buttonURL';
 
-const API = 'http://137.116.147.69:8001/ListOfUser'
+const API = 'http://104.215.189.208:8001/ListOfUser'
 
 class HomePage extends Component {
 	constructor(props) {
@@ -53,8 +53,8 @@ class HomePage extends Component {
 										return(
 											<tr key={user}>
 												<td >{user}</td>						
-												<td ><ButtonURL to={'/showaddress/:'+user} name="View"/></td>
-												<td ><ButtonURL to={'/delete/:'+user} name="delete"/></td>
+												<td ><ButtonURL to={'/showaddress/'+user} name="View"/></td>
+												<td ><ButtonURL to={'/delete/'+user} name="delete"/></td>
 											</tr>
 										);
 									})
