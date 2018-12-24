@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
+import ButtonURL from './buttonURL';
 
 
 class AddressPage extends Component {
@@ -8,23 +8,28 @@ class AddressPage extends Component {
 		super(props);
 	
 		this.state = {
-            details: []
+            details: {}
 		};
 	}
 	
 	componentDidMount(){
-		const API = 'http://localhost:8001/:'
+		const API = 'http://104.215.189.208:8001/details/'
 		const name = this.props.match.params.name;
+		console.log(name);
 		const urlFetch = fetch(API+name) 
 		urlFetch.then(res => {
 			if( res.status === 200 )
 				return res.json()
 		}).then( resJson => {
 			console.log("Mengatur State.data")
+			console.log(resJson)
+			console.log(name)
 			this.setState({
 				details: resJson 
 			})
+			console.log(this.state.details)
 		})
+		console.log(this.state.details)
 	}
 
 
@@ -33,7 +38,7 @@ class AddressPage extends Component {
         const data = {
             "address": addr
         }
-		const editAPI = "http://localhost:8001/edit:"
+		const editAPI = "http://104.215.189.208:8001/edit/"
 		const name = this.props.match.params.name;
         fetch(editAPI+name, {
            method: "POST",
@@ -51,28 +56,10 @@ class AddressPage extends Component {
 		
 	}
 
-    handleDelete(event){        
-		const editAPI = "http://localhost:8001/delete:"
-		const name = this.props.match.params.name;
-        fetch(editAPI+name, {
-           method: "POST",
-           headers : {
-             Accept: "application/json",
-             "Content-Type": "application/json"
-           },
-           
-        }).then(function (response) {
-            return response.json(); 
-        }).then(function (responseData) {
-            console.log(responseData);
-            window.location.href = '/';
-        });
-    }
-
 	render() {
 		return (
-			<div className='col-10 container formEditKornea'>
-					<h1>User Address : {this.state.name}</h1>
+			<div className='col-10 container'>
+					<h1>User Address {this.props.match.params.name}</h1>
                     <table className='table table-hover table-striped tableKornea'>
 							<thead className='thead-dark'>
 								<tr>
@@ -82,17 +69,17 @@ class AddressPage extends Component {
 								</tr>
 							</thead>
 						<tbody>
-						    	{
-									this.state.details.map((detail) => {
-										return(
-											<tr key={detail.name}>
-											<td >{detail.name}</td>
-                                            <td >{detail.address}</td>
-											<td ><button type="submit" className='btn btn-primary' onClick={this.handleDelete.bind(this)}>Delete</button></td>
-										</tr>
-									    );
-								    })
-							    }  
+						    	
+									
+											<tr >
+											   <td >{this.state.details.name}</td>
+                                               <td >{this.state.details.address}</td>
+											   <td ><ButtonURL to={'/delete/'+this.state.details.name} name="delete"/></td>
+											</tr>
+											
+									    
+								    
+							     
 						</tbody>
 					</table>
                     <h1>Edit Address</h1>
