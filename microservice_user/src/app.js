@@ -1,12 +1,24 @@
 const express = require("express")
 const bodyParser = require("body-parser")
 const app = express()
+const fire = require("./fire")
+const ref = fire.database().ref("user")
 
-app.use(bodyParser.json())
 
 var user = []
 
+
+ref.on("value", (snap)=>{
+    user = []
+    snap.forEach(x => {
+        user.push(x.val())
+    })
+})
+
+app.use(bodyParser.json())
+
 app.get("/all", (req,res) =>{
+    console.log(user)
     res.json(user)
 })
 
@@ -17,7 +29,7 @@ app.get("/search/:name", (req,res) => {
 app.post("/add", (req,res)=>{
     newUser = req.body.name
     if(!isExist(newUser)){
-        user.push(newUser)
+        ref.push(newUser)
         res.json(newUser)
     }else{
         res.write("There is already exist with same name")
@@ -26,7 +38,14 @@ app.post("/add", (req,res)=>{
 })
 
 app.post("/delete/:name", (req, res)=>{
-    user = user.filter(nama => nama !== req.params.name)
+    ref.once("value", (snap) =>{
+        key = -1
+        snap.forEach(x => {
+            if(x.val() == req.params.name) key = x.key
+        })
+        ref.child(key).remove()
+    })
+    
     res.json(user)
 })
 
