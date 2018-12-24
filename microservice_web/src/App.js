@@ -5,6 +5,7 @@ import { BrowserRouter, Route} from "react-router-dom";
 import HomePage from './component/homePage';
 import AddressPage from './component/addressPage';
 import AddUser from './component/addUser';
+import Delete from './component/delete';
 
 class App extends Component {
   render() {
@@ -14,6 +15,7 @@ class App extends Component {
           <div className="content">
             <Route exact path="/" component={HomePage}/>
             <Route exact path="/adduser" component={AddUser}/>
+            <Route exact path="/delete/:name" component={Delete}/>
             <Route exact path="/showaddress/:name" component={AddressPage}/>
           </div>
       </div>

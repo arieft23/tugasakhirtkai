@@ -10,14 +10,15 @@ class AddUser extends Component {
             "name": name,
             "address": addr
         }
-        const addAPI = "http://localhost:8001/AddUser"
+        const addAPI = "http://137.116.147.69:8001/AddUser"
         fetch(addAPI, {
            method: "POST",
+           mode: "cors", 
            headers : {
              Accept: "application/json",
-             "Content-Type": "application/json"
+             "Content-Type": "application/json",
            },
-           body: data
+           body: JSON.stringify(data)
         }).then(function (response) {
             return response.json();
         }).then(function (responseData) {
@@ -25,7 +26,7 @@ class AddUser extends Component {
             console.log(data)
             window.location.href="/";
         });
-        //window.location.href="/";
+        window.location.href="/";
         //console.log(data)
 	}
 
@@ -43,7 +44,7 @@ class AddUser extends Component {
 							<label className="bmd-label-static"><b>Address</b></label>
 							<input type="text" name='address' className="form-control" ref="address" />                                  
 						</fieldset>
-						<button type='submit' className='btn btn-primary' onClick={this.handleSubmit.bind(this)}>Update Address</button>
+						<button type='submit' className='btn btn-primary' onClick={this.handleSubmit.bind(this)}>Add User</button>
 					</form>
             </div>
 		);

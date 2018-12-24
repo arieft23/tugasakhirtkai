@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import ButtonURL from './buttonURL';
 
-const API = 'http://localhost:8001/ListOfUser'
+const API = 'http://137.116.147.69:8001/ListOfUser'
 
 class HomePage extends Component {
 	constructor(props) {
@@ -24,10 +25,6 @@ class HomePage extends Component {
 		})
 	}
 
-	handleDelete(event){
-
-	}
-	
 	UserAdd(event) {
 		window.location.href = '/adduser';
 	}
@@ -52,12 +49,12 @@ class HomePage extends Component {
 							<tbody>
 								{
 									this.state.users.map((user) => {
-										const url = '/showaddress/'+user.name
+										
 										return(
-											<tr key={user.name}>
-												<td >{user.name}</td>
-												<td ><input type="button" onclick="location.href=url;" value="Show Details" /></td>
-												<td ><button type="submit" className='btn btn-primary' onClick={this.handleDelete.bind(this)}>Delete</button></td>
+											<tr key={user}>
+												<td >{user}</td>						
+												<td ><ButtonURL to={'/showaddress/:'+user} name="View"/></td>
+												<td ><ButtonURL to={'/delete/:'+user} name="delete"/></td>
 											</tr>
 										);
 									})
