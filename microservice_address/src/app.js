@@ -1,35 +1,47 @@
 const express = require("express")
 const bodyParser = require("body-parser")
 const app = express()
+const fire = require("./fire")
+const ref = fire.database().ref("address")
 
 app.use(bodyParser.json())
 
 var address = {}
 
 app.get("/all", (req,res) =>{
-    res.json(address)
+    ref.once("value", (snap)=>{
+        res.json(snap.val())
+    })
 })
 
 app.get("/search/:name", (req,res) => {
-    const user = address[req.params.name]
-    res.json(user)
+    ref.child(req.params.name).once("value", (snap)=>{
+        res.json(snap.val())
+    }, (error)=>{
+        res.json({})
+    })
 })
 
 app.post("/add", (req,res)=>{
-    const newAddress = {"name": req.body.name, "address" : req.body.address}
-    console.log(newAddress)
-    address[req.body.name] = newAddress
-    res.json(newAddress)
+    var newAddress = {
+        name: req.body.name,
+        address : req.body.address
+    }
+
+    ref.child(req.body.name).set(newAddress)
+
+    res.end()
+
 })
 
 app.post("/edit/:name", (req,res)=>{
-    const user = address[req.params.name]
-    user.address = req.body.address
-    address[req.params.name] = user
-    res.json(user)
+    const newData = {name: req.params.name, address : req.body.address}
+    ref.child(req.params.name).set(newAddress)
+    res.json(newData)
 })
 
 app.post("/delete/:name", (req, res)=>{
-    delete address[req.params.name]
+    ref.child(req.params.name).remove()
+    res.end()
 })
 module.exports = app
